@@ -19,7 +19,16 @@ export class SalesService {
 
   // Get sales by store location
   async getSalesByStoreLocation(location: string): Promise<Sales[]> {
-    const query = { storeLocation: location };
+    const query = { "storeLocation": location };
     return this.salesModel.find(query).exec();
   }
+
+  // Get sales by age and store location
+  async getSalesByAgeAndStoreLocation(age: string, location: string): Promise<Sales[]> {
+    const parsedAge= parseInt(age);
+    const query = {$and: [{ "storeLocation": location },{ "customer.age": {$lte: parsedAge} }]};
+    return this.salesModel.find(query).exec();
+  }
+
+  // Todo: implement aggregation
 }

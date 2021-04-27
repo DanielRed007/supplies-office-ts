@@ -21,4 +21,8 @@ export class SalesController {
     return this.salesService.getSalesByStoreLocation(location);
   }
 
+  @Get('byAge/:age/location/:location')
+  getSalesByAgeAndLocation(@Param('age') age, @Param('location') location): Promise<Sales[]>{
+    return this.salesService.getSalesByAgeAndStoreLocation(age,location);
+  }
 }
