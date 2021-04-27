@@ -15,4 +15,10 @@ export class SalesController {
   getSaleById(@Param('id') id): Promise<Sales> {
     return this.salesService.getSaleById(id);
   }
+
+  @Get('location/:location')
+  getSalesByLocation(@Param('location') location): Promise<Sales[]> {
+    return this.salesService.getSalesByStoreLocation(location);
+  }
+
 }
