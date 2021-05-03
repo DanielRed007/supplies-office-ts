@@ -4,6 +4,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Sales, SalesDocument } from '../schema/sales.schema';
 import { ageAndStoreLocation, storeLocation } from './queries/sales-queries';
 import { genderAndSatisfaction } from './pipelines/sales-pipelines';
+import { sendErrorStatus } from 'src/error/error-handling';
 
 @Injectable()
 export class SalesService {
@@ -33,10 +34,7 @@ export class SalesService {
     const parsedAge = parseInt(age);
 
     if (parsedAge < 16 || parsedAge > 150) {
-      throw new HttpException(
-        { status: HttpStatus.BAD_REQUEST, error: 'Must Specify a valid age' },
-        HttpStatus.BAD_REQUEST,
-      );
+      sendErrorStatus('Must Specify a valid age', HttpStatus.BAD_REQUEST);
     }
 
     const query = ageAndStoreLocation(parsedAge, location);
@@ -51,21 +49,12 @@ export class SalesService {
     const formatGender = gender.toUpperCase();
 
     if (formatGender !== 'F' && formatGender !== 'M') {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: 'Must Specify a valid gender',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
+      sendErrorStatus('Must Specify a valid gender', HttpStatus.BAD_REQUEST);
     }
 
     if (parsedSatisfaction < 0 || parsedSatisfaction > 5) {
-      throw new HttpException(
-        {
-          status: HttpStatus.BAD_REQUEST,
-          error: 'Must Specify a valid satisfaction range value',
-        },
+      sendErrorStatus(
+        'Must Specify a valid satisfaction range value',
         HttpStatus.BAD_REQUEST,
       );
     }

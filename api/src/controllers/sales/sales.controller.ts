@@ -2,6 +2,7 @@ import { Controller, Get, Param } from '@nestjs/common';
 import { Sales } from 'src/schema/sales.schema';
 import { SalesService } from 'src/services/sales.service';
 
+// TODO: check if error handling logic can be moved to controller section
 @Controller('sales')
 export class SalesController {
   constructor(private readonly salesService: SalesService) {}
